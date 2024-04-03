@@ -19,8 +19,6 @@ public class Prototipo1 {
             cuadros_segun_hora();
     }
     public static void cuadros_segun_hora(){
-         int cont_5=0;
-         int cont_6=0;
             Faker faker=new Faker();
         Random random=new Random();
         Scanner scan=new Scanner(System.in);
@@ -39,11 +37,11 @@ public class Prototipo1 {
             String nombre=faker.name().fullName();
             Boolean juega_5=random.nextBoolean();
             if (juega_5){
-                ArregloDinamico1.pushFront(nombre,random.nextInt(10000 + 1) + 0 );
-                cont_5++;
+                ArregloDinamico1.pushBack(nombre,random.nextInt(10000 + 1) + 0 );
+               
             }else{
-                ArregloDinamico2.pushFront(nombre,random.nextInt(10000 + 1) + 0 );
-                cont_6++;
+                ArregloDinamico2.pushBack(nombre,random.nextInt(10000 + 1) + 0 );
+            
             }    
         }
         System.out.println("5");
@@ -54,7 +52,7 @@ public class Prototipo1 {
         System.out.println(duration + "ms");
 
     }
-   /*public static void imprimir_ranking(){
+   public static void imprimir_ranking(){
         
         Faker faker=new Faker();
         Random random=new Random();
@@ -79,7 +77,7 @@ public class Prototipo1 {
         System.out.println(duration + "ms");
         
     }
-    public static void crear_llave(){
+    /*public static void crear_llave(){
         Random random=new Random();
         Faker faker=new Faker();
         Scanner scan=new Scanner(System.in);
