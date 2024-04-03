@@ -5,53 +5,56 @@
 package g10.prototipo1;
 import com.github.javafaker.Faker;
 import java.util.Scanner;
-import java.io.FileWriter;
+//import java.io.FileWriter;
 import java.io.IOException;
-import org.json.JSONObject;
 import java.util.Random;
-import org.json.JSONArray;
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+//import java.io.FileReader;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
 
-/**
- *
- * @author jdsae
- */
 public class Prototipo1 {
+    
 
     public static void main(String[] args) throws IOException{
-            crear_llave();
+            cuadros_segun_hora();
     }
     public static void cuadros_segun_hora(){
-        Faker faker=new Faker();
+         int cont_5=0;
+         int cont_6=0;
+            Faker faker=new Faker();
         Random random=new Random();
         Scanner scan=new Scanner(System.in);
         System.out.print("Cual es la cantidad de jugadores: ");
         int cantidad=scan.nextInt();
         long start=System.nanoTime();
-        SinglyLinkedList lista=new SinglyLinkedList();
+        DinamicArray ArregloDinamico1 = new DinamicArray(2);
+        DinamicArray ArregloDinamico2 = new DinamicArray(2);
+        
         for(int i=0;i<cantidad;i++){
             if(i%10000==0){
                 System.out.println(i);
                 long duration=(System.nanoTime()-start)/1000000;
                 System.out.println(duration + "ms");
             }
-            lista.reset_puntero();
             String nombre=faker.name().fullName();
             Boolean juega_5=random.nextBoolean();
             if (juega_5){
-                lista.addFirst_N(nombre,random.nextInt(10000 + 1) + 0 );
+                ArregloDinamico1.pushFront(nombre,random.nextInt(10000 + 1) + 0 );
+                cont_5++;
             }else{
-                lista.addLast_N(nombre,random.nextInt(10000 + 1) + 0 );
+                ArregloDinamico2.pushFront(nombre,random.nextInt(10000 + 1) + 0 );
+                cont_6++;
             }    
         }
-        lista.texto_cuadros();
+        System.out.println("5");
+        ArregloDinamico1.texto_cuadros();
+        System.out.println("6");
+        ArregloDinamico2.texto_cuadros();
         long duration=(System.nanoTime()-start)/1000000;
         System.out.println(duration + "ms");
 
     }
-    public static void imprimir_ranking(){
+   /*public static void imprimir_ranking(){
         
         Faker faker=new Faker();
         Random random=new Random();
@@ -59,7 +62,7 @@ public class Prototipo1 {
         System.out.print("Cual es la cantidad de jugadores: ");
         int cantidad=scan.nextInt();
         long start=System.nanoTime();
-        SinglyLinkedList lista=new SinglyLinkedList();
+        //SinglyLinkedList lista=new SinglyLinkedList();
         //ingresa la cantidad de jugadores
         for(int i=0;i<cantidad;i++){
             if(i%10000==0){
@@ -67,11 +70,11 @@ public class Prototipo1 {
                 long duration=(System.nanoTime()-start)/1000000;
                 System.out.println(duration + "ms");
             }
-            lista.reset_puntero();
+            //lista.reset_puntero();
             String nombre=faker.name().fullName();
-            lista.agregar_ordenado(nombre,random.nextInt(10000 + 1) + 0 );
+            //lista.agregar_ordenado(nombre,random.nextInt(10000 + 1) + 0 );
         }
-        lista.imprimir_ranking();
+        //lista.imprimir_ranking();
         long duration=(System.nanoTime()-start)/1000000;
         System.out.println(duration + "ms");
         
@@ -86,7 +89,7 @@ public class Prototipo1 {
         //calcula el numero de rondas con el logaritmo base 2, pues se descartan de a 2 jugadores por llave
         int rondas=(int) (Math.ceil(Math.log(cantidad)/Math.log(2)));
 
-        SinglyLinkedList lista=new SinglyLinkedList();
+        //SinglyLinkedList lista=new SinglyLinkedList();
         int cont=0;
         String[] Llave1=new String[(int)Math.pow(2,rondas)];
         for(int i=0;i<Llave1.length;i=i+2){
@@ -164,5 +167,5 @@ public class Prototipo1 {
         long duration=(System.nanoTime()-start)/1000000;
         System.out.println(duration + "ms");
         
-}
+}*/
 }
