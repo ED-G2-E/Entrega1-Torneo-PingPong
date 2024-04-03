@@ -67,7 +67,7 @@ public class DinamicArray<T> {
         }
         arreglo[size] = new Nodes(true, nombre, rank, null);
         size++;
-        cont_6++; 
+        cont_5++; 
     }
     
    public void pushFront(String nombre, int rank) {
@@ -82,7 +82,6 @@ public class DinamicArray<T> {
     }
     arreglo[0] = new Nodes(true, nombre, rank, null); // Por defecto, establecemos juega como true
     size++;
-    cont_5++;
 }
 
    
