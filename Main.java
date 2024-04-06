@@ -17,7 +17,7 @@ public class Prototipo1 {
     
 
     public static void main(String[] args) throws IOException{
-        crear_llave();
+        imprimir_ranking();
     }
     public static void cuadros_segun_hora(){
             Faker faker=new Faker();
@@ -91,10 +91,9 @@ public class Prototipo1 {
         DinamicArray ArregloDinamico1 = new DinamicArray(2);
         int cont=0;
         String[] Llave1=new String[(int)Math.pow(2,rondas)];
-        System.out.println("Llave1 "+ Math.pow(2,rondas));
         int n = Llave1.length;
         for(int i=0;i<cantidad;i++){
-            int index = (2*i+1)%(n);
+            int index = (2*i)%(n-1);
             Llave1[index]= faker.name().fullName();    
             cont++;
             if(i%10000==0){
@@ -104,73 +103,64 @@ public class Prototipo1 {
             }
         }
         
-        System.out.println("Llave1 " + Arrays.toString(Llave1));
         int i=1;
-        while(cont<cantidad){           
-            cont=cont+2;
-            Llave1[i]=faker.name().fullName();
-            Llave1[Llave1.length-i]=faker.name().fullName();
-            i=i+2;                
-            if (cantidad % 2 != 0){
-                 Llave1[Llave1.length - 1] = faker.name().fullName();
-                break;
-            }
-        }
+        
+              
         System.out.println("ronda 1");
         for(int j=0;j<(Llave1.length);j=j+2){
             System.out.print(Llave1[j]);
             System.out.println(" vs "+Llave1[j+1] );
         }
+        
         int cont_ronda=0;
         for (int j=0;j<(Llave1.length);j=j+2){
-            if (random.nextBoolean()){
+            boolean ganador_izquierda = random.nextBoolean();
+            if (ganador_izquierda){
                 if(Llave1[j]==null){
                     ArregloDinamico1.pushBack(Llave1[j+1]);
                 }else{
                     ArregloDinamico1.pushBack(Llave1[j]);
                 }
-            }
-            else{
-                if(Llave1[j]==null){
-                    ArregloDinamico1.pushBack(Llave1[j+1]);
-                }else{
+            }else{
+                if(Llave1[j+1]==null){
                     ArregloDinamico1.pushBack(Llave1[j]);
+                }else{
+                    ArregloDinamico1.pushBack(Llave1[j+1]);
                 }
             }
         }
+        
         System.out.println("ronda 2");
         ArregloDinamico1.texto_torneo();
         cont_ronda++;
-        System.out.println("Capacidad arrwglo "+ArregloDinamico1.getCapacidad());
         while(cont_ronda<=(rondas-2)){
-            System.out.println("ronda "+(cont_ronda+2));
+        
             int cont_G=0;
-             
-           for (int j = ArregloDinamico1.getSize(); j > 3; j -= 2) {
-            if (random.nextBoolean()){//el verdadero representa que gano el de la izquierda
-   
-                ArregloDinamico1.remove_Especial(true,j);
-            }
-            else{
-                ArregloDinamico1.remove_Especial(false,j);
+           for (int j = 0; j <ArregloDinamico1.getSize()-1;j=j+2) {
+               
+            if (random.nextBoolean()) { 
+             ArregloDinamico1.pushInIndex(ArregloDinamico1.get(j), cont_G);
+            } else {
+             ArregloDinamico1.pushInIndex(ArregloDinamico1.get(j + 1), cont_G);
             }
             cont_G++;
+            }//ArregloDinamico1.printArrayLlaves();
+           System.out.println("ronda "+(cont_ronda+2));
+              for(int j=0;j<ArregloDinamico1.getSize()/(Math.pow(2,cont_ronda));j=j+2){
+            System.out.print(ArregloDinamico1.get(j));
+            System.out.println(" vs "+ArregloDinamico1.get(j+1) );
             }
             cont_ronda++;
-            
-            ArregloDinamico1.texto_torneo();           
-            
         }
-        System.out.println("ganador es: ");
+            System.out.println("ganador es: ");
         if(random.nextBoolean()){
-            ArregloDinamico1.removeBack();
+            System.out.println(ArregloDinamico1.get(0));
         }
         else{
-            ArregloDinamico1.removeBack();
-            ArregloDinamico1.texto();
+            System.out.println(ArregloDinamico1.get(1));            
         }
         long duration=(System.nanoTime()-start)/1000000;
         System.out.println(duration + "ms");
-        
-}
+           
+    }
     }
