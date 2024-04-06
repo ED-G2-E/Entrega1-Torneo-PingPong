@@ -51,7 +51,6 @@ public class DinamicArray<T> {
     // Implementación
     private Nodes<T>[] arreglo;
     private Node<T>[] arregloLlaves;
-    private Node<T>[] arregloLlavesGanadores;
     private int capacidad=2;
     private int size=0;
     private int cont_5=0;
@@ -82,11 +81,18 @@ public class DinamicArray<T> {
         cont_5++; 
     }
     
+    public void pushInIndex(T element, int index) {
+    if (index < 0 || index >= size) {
+        throw new IndexOutOfBoundsException("Índice fuera de rango");
+    }
+    arregloLlaves[index] = new Node(element, null);
+}
+    
     public void pushBack(T e) {
          if (size == capacidad) {
         int nuevaCapacidad = capacidad * 2;
         Node<T>[] nuevoArreglo = (Node<T>[]) new Node[nuevaCapacidad];
-        System.arraycopy(arregloLlaves, 0, nuevoArreglo, 1, size);
+        System.arraycopy(arregloLlaves, 0, nuevoArreglo, 0, size);
         arregloLlaves = nuevoArreglo;
         capacidad = nuevaCapacidad;
 
@@ -145,9 +151,7 @@ public class DinamicArray<T> {
         mitad = (inf + sup) / 2;
         
         if (arreglo[mitad] == null) {
-            // Manejar el caso donde arreglo[mitad] es null
             System.out.println("No hay nada en la posición " + mitad);
-            // Aquí puedes decidir cómo manejar este caso según tus necesidades
         } else {
             if (arreglo[mitad].getRank() == jugador.getRank()) {
                 encontrado = true;
@@ -177,7 +181,24 @@ public class DinamicArray<T> {
             System.out.println("Ranking: "+arreglo[i].getRank()+"   Nombre: "+arreglo[i].getElement());
         }
         System.out.println();}
+   
+   public void printArrayLlaves() {
+          for (int i = size - 1; i >= 0; i--){
+            System.out.println("   Nombre: "+arregloLlaves[i].getElement()+i);
+        }
+        System.out.println();}
+   
+   public T get(int index) {
+    if (index < 0 || index >= size) {
+        throw new IndexOutOfBoundsException("Índice fuera de rango");
+    }
+    if (arregloLlaves[index] == null) {
+        throw new NullPointerException("El elemento en el índice proporcionado es null");
+    }
+    return arregloLlaves[index].getElement();
+}
 
+ 
    
     public void texto_cuadros() {
     int cont_cuadro = 1;
@@ -194,31 +215,20 @@ public class DinamicArray<T> {
         cont_cuadro++;}
     }
 
-
 public void texto_torneo() {
     int index = 0;
-    while (index < size - 1) { // Ajustar el límite del índice para evitar el desbordamiento
-        // Verifica si el elemento actual no es null antes de acceder a su método
+    while (index < size - 1) {
+        // Asegúrate de que los elementos actuales no sean nulos
         if (arregloLlaves[index] != null && arregloLlaves[index + 1] != null) {
+            // Imprime el elemento actual y el siguiente como competidores
             System.out.print(arregloLlaves[index].getElement());
-            arregloLlaves[index] = arregloLlaves[index + 1];
-            System.out.println(" vs " + arregloLlaves[index].getElement());
-            arregloLlaves[index] = arregloLlaves[index + 1].getNext();
+            System.out.println(" vs " + arregloLlaves[index + 1].getElement());
         } 
-        index++;
+        index += 2;
     }
 }
 
-public void insertarEN(int i, T e){
-arregloLlaves[i] = new Node(e,null);
-}
-
- public T get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Índice fuera de rango");
-        }
-        return arregloLlaves[index].getElement();
-    }
+ 
 
  public void removeBack() {
     if (size == 0) {
@@ -240,21 +250,6 @@ arregloLlaves[i] = new Node(e,null);
     size--; // Reduce el tamaño del arreglo
 }
 
-
- public void remove_Especial(boolean derecha, int i) {
-    if (derecha) {
-        // Si el lado derecho gana, remueve el elemento de la izquierda
-       
-            arregloLlaves[i-1]=arregloLlaves[i];
-            arregloLlaves[i]=null;
-            size--;                  
-        
-    } else {
-        arregloLlaves[i]=null;
-            size--;  
-    }
-}
-
        
         public void texto(){
     int index = 0;
@@ -268,63 +263,6 @@ arregloLlaves[i] = new Node(e,null);
         index++;
     }
 }
-
-    
     }
     
-    /*public void texto_torneo(){
-        Node puntero=head;
-        while(puntero!=null){
-            //se recorre la lista agregandole elementos a nuestra lista
-            System.out.print(puntero.getElement());
-            puntero=puntero.getNext();
-            if(puntero==null){
-                break;
-            }
-            System.out.println(" vs " +puntero.getElement());
-            puntero=puntero.getNext();
-          
-    }
-}
-    }
-
-    
-    
-    
-    
-    
-   
-
-   /* public int get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Índice fuera de rango");
-        }
-        return arreglo[index];
-    }
-
-    public boolean remove(int index) {
-        if (index < 0 || index >= size) {
-            return false; // Índice fuera de rango
-        }
-        // Desplaza los elementos hacia la izquierda para llenar el espacio del elemento eliminado
-        for (int i = index; i < size - 1; i++) {
-            arreglo[i] = arreglo[i + 1];
-        }
-        arreglo[size - 1] = 0; // Limpia el último elemento
-        size--;
-        return true;
-    }
-
-    
-
-    public int getCapacity() {
-        return capacidad;
-    }
-
-    public void printArray() {
-        for (int i = 0; i < size; i++) {
-            System.out.print(arreglo[i] + " ");
-        }
-        System.out.println();
-    }*/
-
+  
